@@ -26,18 +26,27 @@ class TestTeams():
         return TestClient(app), UserFactory.build(), TeamFactory.build()
     
     def test_create_team(self, test_data):
+        """
+            Verifies the team creation
+        """
         api_client, _, _ = test_data
         data = {"name": "Team_test"}
         response = api_client.post("/teams/", json=data)
         assert response.status_code == 201
     
     def test_get_teams(self, test_data):
+        """
+            Verifies the team list retrieve is correct
+        """
         api_client, _, _ = test_data
         response = api_client.get("/teams/")
         assert response.status_code == 200
 
     
     def test_get_user_list_in_team(self, test_data):
+        """
+            Verifies the user list within a team is correct
+        """
         api_client, _, team = test_data
         response = api_client.get(f"/teams/{team.id}/user-list")
         assert response.status_code == 200

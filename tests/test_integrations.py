@@ -9,6 +9,9 @@ class TestIntegrations:
         return TestClient(app)
  
     def test_create_integrations(self, api_client):
+        """
+            Verifies the integrations creation
+        """
         user_data = {
             "name": "Integration 1",
             "type": "Type 1",
@@ -18,5 +21,8 @@ class TestIntegrations:
         assert response.status_code == 201
     
     def test_get_integrations(self, api_client):
+        """
+            Verifies the integration list retrieve is correct
+        """
         response = api_client.get("/integrations/")
         assert response.status_code == 200
