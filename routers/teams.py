@@ -26,7 +26,7 @@ def create_team(user: TeamUsersCreateSchema, db: db_dependency):
         team = Team(name=user.name)
         db.add(team)
         db.commit()
-        return {"message": "Equipo creado correctamente"}
+        return {"message": "Equipo creado correctamente", "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
@@ -34,7 +34,7 @@ def create_team(user: TeamUsersCreateSchema, db: db_dependency):
 def get_teams(db: db_dependency):
     try:
         query = db.query(Team).all()
-        return {"message": "Todo ha ido bien", "data": query}
+        return {"message": "Todo ha ido bien", "data": query, "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
@@ -45,7 +45,7 @@ def delete_teams(teams_list: TeamIdsListSchema, db: db_dependency):
         if user:
             db.delete(user)
     db.commit()
-    return {"message": "Equipos eliminados correctamente"}    
+    return {"message": "Equipos eliminados correctamente", "success": True}
 
 
 
@@ -60,7 +60,7 @@ def add_user_to_team(data: TeamAddUserSchema, db: db_dependency):
         user.team = team
         db.commit()
         db.refresh(user)
-        return {"message": "Equipo creado correctamente"}
+        return {"message": "Equipo creado correctamente", "success": True}
     except IntegrityError:
         db.rollback()
         raise HTTPException(status_code=400, detail="El usuario ya existe en el equipo")
@@ -69,6 +69,6 @@ def add_user_to_team(data: TeamAddUserSchema, db: db_dependency):
 def get_user_list_in_team(team_id: int, db: db_dependency):
     try:
         team = db.query(Team).filter(Team.id == team_id).first()
-        return team.users
+        return {"message": "Todo ha ido bien", "data": team.users, "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}

@@ -26,7 +26,7 @@ def create_user(user: UserCreateSchema, db: db_dependency):
         user = User(first_name=user.first_name, last_name=user.last_name, email=user.email, status=user.status)
         db.add(user)
         db.commit()
-        return {"message": "Usuario creado correctamente"}
+        return {"message": "Usuario creado correctamente", "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
@@ -34,15 +34,18 @@ def create_user(user: UserCreateSchema, db: db_dependency):
 def get_users(db: db_dependency):
     try:
         query = db.query(User).all()
-        return {"message": "Todo ha ido bien", "data": query}
+        return {"message": "Todo ha ido bien", "data": query, "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
 @router.delete("/", status_code=200)
 def delete_users(users_list: UserIdsListSchema, db: db_dependency):
-    for user_id in users_list.user_ids:
-        user = db.query(User).filter(User.id == user_id).first()
-        if user:
-            db.delete(user)
-    db.commit()
-    return {"message": "Usuarios eliminados correctamente"}    
+    try:
+        for user_id in users_list.user_ids:
+            user = db.query(User).filter(User.id == user_id).first()
+            if user:
+                db.delete(user)
+        db.commit()
+        return {"message": "Usuarios eliminados correctamente", "success": True}
+    except Exception as e:
+        return {"message": f"Algo ha ido mal...{str(e)}"}

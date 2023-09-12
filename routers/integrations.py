@@ -26,7 +26,7 @@ def create_integration(integration: IntegrationCreateSchema, db: db_dependency):
         integration_query = Integration(name=integration.name, type=integration.type, token=token, status=integration.status)
         db.add(integration_query)
         db.commit()
-        return {"message": "Integracion creada correctamente"}
+        return {"message": "Integracion creada correctamente", "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
@@ -34,7 +34,7 @@ def create_integration(integration: IntegrationCreateSchema, db: db_dependency):
 def get_integrations(db: db_dependency):
     try:
         query = db.query(Integration).all()
-        return {"message": "Todo ha ido bien", "data": query}
+        return {"message": "Todo ha ido bien", "data": query, "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
@@ -45,4 +45,4 @@ def delete_integrations(integration_list: IntegrationsIdsListSchema, db: db_depe
         if user:
             db.delete(user)
     db.commit()
-    return {"message": "Integraciones eliminadas correctamente"}    
+    return {"message": "Integraciones eliminadas correctamente", "success": True}    
