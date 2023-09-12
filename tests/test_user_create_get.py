@@ -1,0 +1,23 @@
+import pytest
+from fastapi.testclient import TestClient
+from main import app
+
+
+class TestUser:
+    @pytest.fixture
+    def api_client(self):
+        return TestClient(app)
+ 
+    def test_create_user(self, api_client):
+        user_data = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john.doe@example.com",
+            "is_active": True
+        }
+        response = api_client.post("/users/", json=user_data)
+        assert response.status_code == 201
+    
+    def test_get_users(self, api_client):
+        response = api_client.get("/users/")
+        assert response.status_code == 200
