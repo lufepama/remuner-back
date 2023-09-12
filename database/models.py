@@ -18,8 +18,17 @@ class User(Base):
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
     email = Column(String, index=True)
-    is_active = Column(Boolean, default=True)
+    status = Column(Boolean, default=True)
 
     team_id = Column(Integer, ForeignKey("teams.id"))
 
     team = relationship("Team", back_populates="users")
+
+class Integration(Base):
+    __tablename__ = "integations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True, default=None)
+    type = Column(String, index=True, default=None)
+    token = Column(String, index=True, default=None)
+    status = Column(String, index=True, default=False)

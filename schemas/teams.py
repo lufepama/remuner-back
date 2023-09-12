@@ -1,7 +1,9 @@
-from pydantic import BaseModel, validator
-from typing import List, Optional
-from .users import UserSchema
+from pydantic import BaseModel
 
 
-class TeamUsersSchema(BaseModel):
+class TeamUsersCreateSchema(BaseModel):
     name: str
+
+class TeamAddUserSchema(BaseModel):
+    team_id: int
+    user_id: int

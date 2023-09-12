@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 
-class TestUser:
+class TestUsers:
     @pytest.fixture
     def api_client(self):
         return TestClient(app)

@@ -16,13 +16,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
 @router.post("/", status_code=201)
 def create_user(user: UserCreateSchema, db: db_dependency):
     try:
-        user = User(first_name=user.first_name, last_name=user.last_name, email=user.email, is_active=user.is_active)
+        user = User(first_name=user.first_name, last_name=user.last_name, email=user.email, status=user.status)
         db.add(user)
         db.commit()
         return {"message": "Usuario creado correctamente"}

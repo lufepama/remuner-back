@@ -4,7 +4,7 @@ class UserCreateSchema(BaseModel):
     first_name: str
     last_name: str
     email: str
-    is_active: bool
+    status: bool
 
     @validator("email")
     def validate_email(cls, value):
@@ -17,4 +17,4 @@ class UserSchema(BaseModel):
     first_name: str
     last_name: str
     email: str
-    is_active: bool
+    status: bool
