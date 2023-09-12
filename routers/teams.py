@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
 from database.db import engine, SessionLocal, Base
 from database.models import Team, User
-from schemas.teams import TeamUsersCreateSchema, TeamAddUserSchema
+from schemas.teams import TeamUsersCreateSchema, TeamAddUserSchema, TeamIdsListSchema
 from schemas.users import UserSchema
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -29,6 +29,25 @@ def create_team(user: TeamUsersCreateSchema, db: db_dependency):
         return {"message": "Equipo creado correctamente"}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
+
+@router.get("/", status_code=200)
+def get_teams(db: db_dependency):
+    try:
+        query = db.query(Team).all()
+        return {"message": "Todo ha ido bien", "data": query}
+    except Exception as e:
+        return {"message": f"Algo ha ido mal...{str(e)}"}
+
+@router.delete("/", status_code=200)
+def delete_teams(teams_list: TeamIdsListSchema, db: db_dependency):
+    for user_id in teams_list.team_ids:
+        user = db.query(Team).filter(Team.id == user_id).first()
+        if user:
+            db.delete(user)
+    db.commit()
+    return {"message": "Equipos eliminados correctamente"}    
+
+
 
 @router.post("/add-user", status_code=201)
 def add_user_to_team(data: TeamAddUserSchema, db: db_dependency):

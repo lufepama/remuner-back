@@ -31,6 +31,12 @@ class TestTeams():
         response = api_client.post("/teams/", json=data)
         assert response.status_code == 201
     
+    def test_get_teams(self, test_data):
+        api_client, _, _ = test_data
+        response = api_client.get("/teams/")
+        assert response.status_code == 200
+
+    
     def test_get_user_list_in_team(self, test_data):
         api_client, _, team = test_data
         response = api_client.get(f"/teams/{team.id}/user-list")

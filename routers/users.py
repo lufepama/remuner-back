@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import List, Annotated
 from database.db import engine, SessionLocal, Base
 from database.models import User
-from schemas.users import UserCreateSchema
+from schemas.users import UserCreateSchema, UserIdsListSchema
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -37,3 +37,12 @@ def get_users(db: db_dependency):
         return {"message": "Todo ha ido bien", "data": query}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
+
+@router.delete("/", status_code=200)
+def delete_users(users_list: UserIdsListSchema, db: db_dependency):
+    for user_id in users_list.user_ids:
+        user = db.query(User).filter(User.id == user_id).first()
+        if user:
+            db.delete(user)
+    db.commit()
+    return {"message": "Usuarios eliminados correctamente"}    

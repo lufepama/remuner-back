@@ -25,10 +25,10 @@ class User(Base):
     team = relationship("Team", back_populates="users")
 
 class Integration(Base):
-    __tablename__ = "integations"
+    __tablename__ = "integrations"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, default=None)
     type = Column(String, index=True, default=None)
     token = Column(String, index=True, default=None)
-    status = Column(String, index=True, default=False)
+    status = Column(Boolean, default=True)

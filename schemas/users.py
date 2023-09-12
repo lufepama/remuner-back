@@ -1,4 +1,5 @@
 from pydantic import BaseModel, validator
+from typing import List
 
 class UserCreateSchema(BaseModel):
     first_name: str
@@ -18,3 +19,6 @@ class UserSchema(BaseModel):
     last_name: str
     email: str
     status: bool
+
+class UserIdsListSchema(BaseModel):
+    user_ids: List[int]

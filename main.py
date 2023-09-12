@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from typing import List, Annotated
 from routers.users import router as users_router
 from routers.teams import router as teams_router
+from routers.integrations import router as integrations_router
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.ext.declarative import declarative_base
@@ -11,6 +12,7 @@ Base = declarative_base()
 
 app.include_router(users_router, prefix="/users")
 app.include_router(teams_router, prefix="/teams")
+app.include_router(integrations_router, prefix="/integrations")
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):

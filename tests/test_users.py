@@ -13,7 +13,7 @@ class TestUsers:
             "first_name": "John",
             "last_name": "Doe",
             "email": "john.doe@example.com",
-            "is_active": True
+            "status": True
         }
         response = api_client.post("/users/", json=user_data)
         assert response.status_code == 201
