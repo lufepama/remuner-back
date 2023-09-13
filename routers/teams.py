@@ -26,7 +26,7 @@ def create_team(user: TeamUsersCreateSchema, db: db_dependency):
         team = Team(name=user.name)
         db.add(team)
         db.commit()
-        return {"message": "Equipo creado correctamente", "success": True}
+        return {"message": "Equipo creado correctamente", "data": team.id,  "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 

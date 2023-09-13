@@ -26,7 +26,7 @@ def create_integration(integration: IntegrationCreateSchema, db: db_dependency):
         integration_query = Integration(name=integration.name, type=integration.type, token=token, status=integration.status)
         db.add(integration_query)
         db.commit()
-        return {"message": "Integracion creada correctamente", "success": True}
+        return {"message": "Integracion creada correctamente", "data": {"id": integration_query.id, "token": token}, "success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 

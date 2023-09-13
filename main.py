@@ -30,9 +30,6 @@ app.include_router(integrations_router, prefix="/integrations")
 async def validation_exception_handler(request, exc):
     error_messages = []
     for error in exc.errors():
-
-        print(error)
-        field_name = error["loc"][0]
         error_message = error["msg"]
-        error_messages.append(f"Error en el campo '{field_name}': {error_message}")
+        error_messages.append(f"{error_message}")
     return JSONResponse(status_code=400, content={"detail": error_messages})

@@ -26,7 +26,7 @@ def create_user(user: UserCreateSchema, db: db_dependency):
         user = User(first_name=user.first_name, last_name=user.last_name, email=user.email, status=user.status)
         db.add(user)
         db.commit()
-        return {"message": "Usuario creado correctamente", "success": True}
+        return {"message": "Usuario creado correctamente", "data": user.id ,"success": True}
     except Exception as e:
         return {"message": f"Algo ha ido mal...{str(e)}"}
 
